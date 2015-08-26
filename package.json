@@ -1,0 +1,25 @@
+{
+  "name": "senso-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "build": "babel src/ --out-dir dist/",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "npm i babel -g"
+  },
+  "author": "Sunny <indiasuny000@gmail.com> (darkowlzz)",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "express-jwt": "^3.0.1",
+    "jsonwebtoken": "^5.0.5",
+    "jwt-simple": "^0.3.0",
+    "lodash": "^3.10.1",
+    "mongoose": "^4.1.3",
+    "morgan": "^1.6.1",
+    "request": "^2.61.0"
+  }
+}
