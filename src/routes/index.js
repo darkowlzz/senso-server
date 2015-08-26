@@ -13,6 +13,9 @@ router.post('/api/v1/clan', db.createClan);
 // Create a user.
 router.post('/api/v1/user', user.createUser);
 
+// Returns user profile
+router.get('/api/v1/user/:userID', user.profile);
+
 // Returns clan details (Name, id, number of members, etc).
 router.get('/api/v1/clan/:clanID', db.clanDetails);
 // Returns clan members list.
