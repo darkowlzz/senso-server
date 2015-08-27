@@ -31,14 +31,16 @@ app.all('/api/v1/*', expressJwt({secret: 'nyancat'}));
 app.use('/', router);
 
 // If no route is matched by now, it must be a 404
+/*
 app.use((req, res, next) => {
   let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
+*/
 
 // Start the server
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8000);
 
 let server = app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + server.address().port);

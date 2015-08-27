@@ -1,15 +1,17 @@
 import express from 'express';
+import { auth } from './auth';
+import { clan } from './clan';
+import { user } from './user';
 
+console.log('ROUTES IMPORTED');
 let router = express.Router();
 
-let auth = require('./auth.js'),
-    db = require('./db.js'),
-    user = require('./users.js');
+console.log('LOGIN ROUTE NOW');
+router.post('/login', auth.tokensignin);
 
-router.post('/login', auth.login);
-
+console.log('LOGIN ROUTE DONE');
 // Create a new clan.
-router.post('/api/v1/clan', db.createClan);
+router.post('/api/v1/clan', clan.createClan);
 // Create a user.
 router.post('/api/v1/user', user.createUser);
 
@@ -17,26 +19,26 @@ router.post('/api/v1/user', user.createUser);
 router.get('/api/v1/user/:userID', user.profile);
 
 // Returns clan details (Name, id, number of members, etc).
-router.get('/api/v1/clan/:clanID', db.clanDetails);
+router.get('/api/v1/clan/:clanID', clan.clanDetails);
 // Returns clan members list.
-router.get('/api/v1/clan/:clanID/members', db.clanMembers);
+router.get('/api/v1/clan/:clanID/members', clan.clanMembers);
 // Returns clan war ready members list.
-router.get('/api/v1/clan/:clanID/war/ready', db.warReadyMembers);
+router.get('/api/v1/clan/:clanID/war/ready', clan.warReadyMembers);
 // Returns clan war participant members list.
-router.get('/api/v1/clan/:clanID/war/members', db.warMembers);
+router.get('/api/v1/clan/:clanID/war/members', clan.warMembers);
 
 // Update clan details
-router.put('/api/v1/clan/:clanID', db.clanDetailsUpdate);
+router.put('/api/v1/clan/:clanID', clan.clanDetailsUpdate);
 // Update clan members (change war status, add new members).
-router.put('/api/v1/clan/:clanID/members/update', db.clanMembersUpdate);
+router.put('/api/v1/clan/:clanID/members/update', clan.clanMembersUpdate);
 // Update clan war members (add and remove participants).
-router.put('/api/v1/clan/:clanID/war/members/update', db.warMembersUpdate);
+router.put('/api/v1/clan/:clanID/war/members/update', clan.warMembersUpdate);
 // Update clan warmap list.
-router.put('/api/v1/clan/:clanID/warmap/update', db.warMapUpdate);
+router.put('/api/v1/clan/:clanID/warmap/update', clan.warMapUpdate);
 
 // Reset/empty war memebrs list.
-router.get('/api/v1/clan/:clanID/war/members/reset', db.warMembersReset);
+router.get('/api/v1/clan/:clanID/war/members/reset', clan.warMembersReset);
 // Toggles clan war status.
-router.get('/api/v1/clan/:clanID/war/toggle', db.warStatusToggle);
+router.get('/api/v1/clan/:clanID/war/toggle', clan.warStatusToggle);
 
 export { router };

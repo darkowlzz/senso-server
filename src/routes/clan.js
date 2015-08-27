@@ -14,11 +14,11 @@ function arraysEqual (a, b) {
   return true;
 }
 
-let uristring = process.env.MONGODB_URI || 'mongodb://localhost:/senso';
+let uristring = process.env.MONGODB_URI || 'mongodb://localhost/senso';
 
 mongoose.connect(uristring, (err, res) => {
   if (err) {
-    console.log('Error connecting to db');
+    console.log('Error connecting to db', err);
   } else {
     console.log('Succeeded in connection to db');
   }
@@ -225,4 +225,51 @@ let clan = {
   }
 }
 
-export { clan };
+
+let statsSchema = new mongoose.Schema({
+  statisticName: { type: String },
+  clans: { type: Number, 'default': 0 },
+  users: { type: Number, 'default': 0 }
+});
+
+let Stats = mongoose.model('statistics', statsSchema);
+
+let stats = {
+
+  initStat: () => {
+    let aStats = new Stats({
+      statisticName: 'general'
+    });
+    aStats.save((err, obj) => {
+      if (err) {
+        console.log('error:', err);
+      } else {
+        console.log('stats created');
+      }
+    });
+  },
+
+  incClan: (callback) => {
+    Stats.update({ statisticName: 'general' }, { $inc: { clans: 1 } }, () => {
+      console.log('clans increased');
+      callback();
+    });
+  },
+
+  incUsers: (callback) => {
+    console.log('increasing user');
+    Stats.update({ statisticName: 'general' }, { $inc: { users: 1 } }, () => {
+      console.log('users increased');
+      callback();
+    });
+  },
+
+  getStats: (callback) => {
+    console.log('getting stats');
+    Stats.findOne({ statisticName: 'general' }).exec((err, result) => {
+      callback(result);
+    });
+  }
+}
+
+export { clan, stats, mongoose };
