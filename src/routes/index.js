@@ -6,10 +6,9 @@ import { user } from './user';
 console.log('ROUTES IMPORTED');
 let router = express.Router();
 
-console.log('LOGIN ROUTE NOW');
+
 router.post('/login', auth.tokensignin);
 
-console.log('LOGIN ROUTE DONE');
 // Create a new clan.
 router.post('/api/v1/clan', clan.createClan);
 // Create a user.

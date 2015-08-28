@@ -33,35 +33,33 @@ let auth = {
       console.log('got response', body);
       console.log('statusCode', response.statusCode);
       if (!error && response.statusCode == 200) {
-        // collect user data from the db and return it
-        //
-        /*
+        let profile = {
+          name: name,
+          email: email
+          //userID: result.userID,
+          //clanID: result.clanID
+        }
+
+        let token = jwt.sign(profile, 'nyancat', { expiresInMinutes: 60*5 });
+
+        // collect user data from the db and check if the user already exists
         user.getDetails(email, (result) => {
           // for existing users
-          let profile = {
-            name: result.name,
-            email: dbResult.email
-            //userID: result.userID,
-            //clanID: result.clanID
-          }
-
-          let token = jwt.sign(profile, 'nyancat', { expiresInMinutes: 60*5 });
           res.json({ token: token, success: true });
-        }
-        */
-        /*, () => {
+        }, () => {
           // new users
-          res.json({ success: false, code: 'new-user',
+          res.json({ token: token, success: false, code: 'new-user',
                      message: 'Create a user profile' });
         }
         );
-        */
+        /*
         let profile = {
           name: name,
           email: email
         };
         let token = jwt.sign(profile, 'nyancat', { expiresInMinutes: 60*5 });
         res.json({ token: token, success: true });
+        */
       } else {
         res.send(401, 'Invalid token');
       }

@@ -17,7 +17,7 @@ app.all('/*', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   // Custom headers for CORS
-  res.header('Access-Control-Allow-Headers', 'Content-type,Accept,X-Access-Token,X-Key');
+  res.header('Access-Control-Allow-Headers', 'Content-type,Accept,Authorization');
   if (req.method == 'OPTIONS') {
     res.status(200).end();
   } else {
@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 */
 
 // Start the server
-app.set('port', process.env.PORT || 8000);
+app.set('port', process.env.PORT || 3000);
 
 let server = app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + server.address().port);
