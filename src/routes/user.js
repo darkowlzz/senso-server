@@ -23,7 +23,8 @@ let userSchema = new mongoose.Schema({
   email: { type: String },
   userID: {type: String },
   inWar: { type: Boolean, 'default': false },
-  level: { type: Number, 'default': 1 }
+  level: { type: Number, 'default': 1 },
+  role: { type: String }
 });
 let User = mongoose.model('user', userSchema);
 
@@ -53,13 +54,14 @@ let user = {
               clanName: '',
               email: data.email,
               inWar: false,
-              level: 1
+              level: 1,
+              role: 'user'
             });
             aUser.save((err, obj) => {
               if (err) {
                 res.json({ error: err });
               } else {
-                res.json({ success: true });
+                res.json({ success: true, role: aUser.role });
               }
             });
  
