@@ -1,5 +1,6 @@
 //import mongoose from 'mongoose';
 import { mongoose, stats } from './clan';
+import _ from 'lodash';
 
 /*
 let uristring = process.env.MONGODB_URI || 'mongodb://localhost/senso';
@@ -61,7 +62,7 @@ let user = {
               if (err) {
                 res.json({ error: err });
               } else {
-                res.json({ success: true, role: aUser.role });
+                res.json({ success: true, user: aUser });
               }
             });
  
@@ -94,6 +95,23 @@ let user = {
         // NOTE: limit the details to be returned
         callbackExisting(result);
       }
+    });
+  },
+
+  update: (req, res) => {
+    let data = req.body;
+    console.log('update data', data);
+    User.findOne({ userID: req.params.userID }, (err, rObj) => {
+      console.log('before', rObj);
+      _.assign(rObj, data);
+      console.log('after', rObj);
+      rObj.save((err, result) => {
+        if (err) {
+          res.json({ error: err });
+        } else {
+          res.json({ success: true });
+        }
+      });
     });
   }
 }

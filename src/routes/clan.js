@@ -29,6 +29,9 @@ mongoose.connect(uristring, (err, res) => {
 let clanSchema = new mongoose.Schema({
   name: { type: String },
   clanID: { type: String },
+  clanType: { type: String },
+  warFrequency: { type: String },
+  location: { type: String },
   members: { type: Array, 'default': [] },
   warMembers: { type: Array, 'default': [] },
   inWar: { type: Boolean, 'default': false },
@@ -53,6 +56,9 @@ let clan = {
         let aClan = new Clan({
           name: data.name,
           clanID: data.clanID,
+          clanType: data.clanType,
+          warFrequency: data.warFrequency,
+          location: data.location,
           members: [],
           warMembers: [],
           inWar: false,
@@ -116,8 +122,7 @@ let clan = {
   clanDetailsUpdate: (req, res) => {
     let data = req.body;
     Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
-      rObj.description = data.description;
-      rObj.level = data.description;
+      _.assign(rObj, req.data);
       rObj.save((err, result) => {
         if (err) {
           res.json({ error: err });

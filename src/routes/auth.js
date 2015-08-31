@@ -45,7 +45,7 @@ let auth = {
         // collect user data from the db and check if the user already exists
         user.getDetails(email, (result) => {
           // for existing users
-          res.json({ token: token, success: true, role: result.role });
+          res.json({ token: token, success: true, user: result });
         }, () => {
           // new users
           res.json({ token: token, success: false, code: 'new-user',
