@@ -100,11 +100,8 @@ let user = {
 
   update: (req, res) => {
     let data = req.body;
-    console.log('update data', data);
     User.findOne({ userID: req.params.userID }, (err, rObj) => {
-      console.log('before', rObj);
       _.assign(rObj, data);
-      console.log('after', rObj);
       rObj.save((err, result) => {
         if (err) {
           res.json({ error: err });
@@ -112,6 +109,14 @@ let user = {
           res.json({ success: true });
         }
       });
+    });
+  },
+
+  getUsersInClan: (req, res) => {
+    console.log('clanID', req.params.clanID);
+    User.find({ clanID: req.params.clanID }, (err, result) => {
+      console.log(result);
+      res.json(result);
     });
   }
 }
