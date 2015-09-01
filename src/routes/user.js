@@ -126,15 +126,20 @@ let user = {
       rObj.clanID = req.params.clanID;
       // Get clan name and update clanName
       Clan.findOne({ clanID: data.clanID }, (err, rslt) => {
-        rObj.clanName = rslt.name;
-        rObj.save((err, result) => {
-          if (err) {
-            res.json({ error: err });
-          } else {
-            res.json({ success: true, clanID: rObj.clanID,
-                       clanName: rObj.clanName });
-          }
-        });
+        if (rslt === null) {
+          // clan does not exists
+          res.json({ success: false });
+        } else {
+          rObj.clanName = rslt.name;
+          rObj.save((err, result) => {
+            if (err) {
+              res.json({ error: err });
+            } else {
+              res.json({ success: true, clanID: rObj.clanID,
+                         clanName: rObj.clanName });
+            }
+          });
+        }
       });
     });
   }
