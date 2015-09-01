@@ -36,8 +36,6 @@ let auth = {
         let profile = {
           name: name,
           email: email
-          //userID: result.userID,
-          //clanID: result.clanID
         }
 
         let token = jwt.sign(profile, 'nyancat', { expiresInMinutes: 60*5 });
@@ -52,14 +50,6 @@ let auth = {
                      message: 'Create a user profile' });
         }
         );
-        /*
-        let profile = {
-          name: name,
-          email: email
-        };
-        let token = jwt.sign(profile, 'nyancat', { expiresInMinutes: 60*5 });
-        res.json({ token: token, success: true });
-        */
       } else {
         res.send(401, 'Invalid token');
       }

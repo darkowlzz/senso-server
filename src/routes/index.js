@@ -22,12 +22,14 @@ router.put('/api/v1/user/:userID', user.update);
 // Returns clan details (Name, id, number of members, etc).
 router.get('/api/v1/clan/:clanID', clan.clanDetails);
 // Returns clan members list.
-//router.get('/api/v1/clan/:clanID/members', clan.clanMembers);
 router.get('/api/v1/clan/:clanID/members', user.getUsersInClan);
 // Returns clan war ready members list.
 router.get('/api/v1/clan/:clanID/war/ready', clan.warReadyMembers);
 // Returns clan war participant members list.
 router.get('/api/v1/clan/:clanID/war/members', clan.warMembers);
+
+// Join clan a clan
+router.put('/api/v1/clan/:clanID/join', user.joinClan);
 
 // Update clan details
 router.put('/api/v1/clan/:clanID', clan.clanDetailsUpdate);

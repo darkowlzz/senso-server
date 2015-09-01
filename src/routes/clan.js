@@ -37,7 +37,8 @@ let clanSchema = new mongoose.Schema({
   inWar: { type: Boolean, 'default': false },
   warMap: { type: Array, 'default': [] },
   description: { type: String, 'default': 'No description.' },
-  level: { type: Number, 'default': 1 }
+  level: { type: Number, 'default': 1 },
+  joinRequests: { type: Array, 'default': [] }
 });
 let Clan = mongoose.model('clan', clanSchema);
 
@@ -277,4 +278,4 @@ let stats = {
   }
 }
 
-export { clan, stats, mongoose };
+export { clan, stats, mongoose, Clan };

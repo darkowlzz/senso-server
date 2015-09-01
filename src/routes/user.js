@@ -1,5 +1,5 @@
 //import mongoose from 'mongoose';
-import { mongoose, stats } from './clan';
+import { mongoose, stats, Clan } from './clan';
 import _ from 'lodash';
 
 /*
@@ -113,10 +113,29 @@ let user = {
   },
 
   getUsersInClan: (req, res) => {
-    console.log('clanID', req.params.clanID);
     User.find({ clanID: req.params.clanID }, (err, result) => {
-      console.log(result);
       res.json(result);
+    });
+  },
+
+  joinClan: (req, res) => {
+    let data = req.body;
+    // Get the user
+    User.findOne({ userID: data.userID }, (err, rObj) => {
+      // update the clanID
+      rObj.clanID = req.params.clanID;
+      // Get clan name and update clanName
+      Clan.findOne({ clanID: data.clanID }, (err, rslt) => {
+        rObj.clanName = rslt.name;
+        rObj.save((err, result) => {
+          if (err) {
+            res.json({ error: err });
+          } else {
+            res.json({ success: true, clanID: rObj.clanID,
+                       clanName: rObj.clanName });
+          }
+        });
+      });
     });
   }
 }
