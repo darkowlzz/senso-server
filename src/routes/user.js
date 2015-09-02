@@ -142,6 +142,22 @@ let user = {
         }
       });
     });
+  },
+
+  leaveClan: (req, res) => {
+    let data = req.body;
+    User.findOne({ userID: data.userID }, (err, rObj) => {
+      rObj.clanID = null;
+      rObj.clanName = null;
+      // NOTE: use req.params.clanID to update clan details
+      rObj.save((err, result) => {
+        if (err) {
+          res.json({ error: err });
+        } else {
+          res.json({ success: true });
+        }
+      });
+    });
   }
 }
 

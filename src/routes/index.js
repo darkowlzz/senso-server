@@ -28,8 +28,10 @@ router.get('/api/v1/clan/:clanID/war/ready', clan.warReadyMembers);
 // Returns clan war participant members list.
 router.get('/api/v1/clan/:clanID/war/members', clan.warMembers);
 
-// Join clan a clan
+// Join clan
 router.put('/api/v1/clan/:clanID/join', user.joinClan);
+// Leave clan
+router.put('/api/v1/clan/:clanID/leave', user.leaveClan);
 
 // Update clan details
 router.put('/api/v1/clan/:clanID', clan.clanDetailsUpdate);
