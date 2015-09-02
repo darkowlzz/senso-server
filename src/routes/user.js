@@ -158,6 +158,19 @@ let user = {
         }
       });
     });
+  },
+
+  toggleWar: (req, res) => {
+    User.findOne({ userID: req.params.userID }, (err, rObj) => {
+      rObj.inWar = ! rObj.inWar;
+      rObj.save((err, result) => {
+        if (err) {
+          res.json({ error: err });
+        } else {
+          res.json({ success: true, inWar: rObj.inWar });
+        }
+      });
+    });
   }
 }
 

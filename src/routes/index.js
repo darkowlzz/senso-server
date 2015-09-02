@@ -18,6 +18,8 @@ router.post('/api/v1/user', user.createUser);
 router.get('/api/v1/user/:userID', user.profile);
 // Update user profile
 router.put('/api/v1/user/:userID', user.update);
+// Toggle user war status
+router.get('/api/v1/user/:userID/toggleWar', user.toggleWar);
 
 // Returns clan details (Name, id, number of members, etc).
 router.get('/api/v1/clan/:clanID', clan.clanDetails);
