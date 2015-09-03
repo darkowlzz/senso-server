@@ -24,6 +24,7 @@ let userSchema = new mongoose.Schema({
   email: { type: String },
   userID: {type: String },
   warReady: { type: Boolean, 'default': false },
+  inWar: { type: Boolean, 'default': false },
   level: { type: Number, 'default': 1 },
   role: { type: String }
 });
@@ -169,6 +170,32 @@ let user = {
           res.json({ error: err });
         } else {
           res.json({ success: true, warReady: rObj.warReady });
+        }
+      });
+    });
+  },
+
+  addToWar: (req, res) => {
+    User.findOne({ userID: req.params.userID }, (err, rObj) => {
+      rObj.inWar = true;
+      rObj.save((err, result) => {
+        if (err) {
+          res.json({ error: err });
+        } else {
+          res.json({ success: true });
+        }
+      });
+    });
+  },
+
+  outOfWar: (req, res) => {
+    User.findOne({ userID: req.params.userID }, (err, rObj) => {
+      rObj.inWar = false;
+      rObj.save((err, result) => {
+        if (err) {
+          res.json({ error: err });
+        } else {
+          res.json({ success: true });
         }
       });
     });

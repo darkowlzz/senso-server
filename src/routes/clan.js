@@ -112,7 +112,7 @@ let clan = {
       res.json(readyMembers);
     });
     */
-    User.find({ clanID: req.params.clanID, inWar: true }, (err, rObj) => {
+    User.find({ clanID: req.params.clanID, warReady: true }, (err, rObj) => {
       console.log(rObj);
       res.json(rObj);
     })
@@ -120,8 +120,8 @@ let clan = {
 
   // Returns members in war list - GET
   warMembers: (req, res) => {
-    Clan.findOne({ clanID: req.params.clanID }).exec((err, result) => {
-      res.json(result.warMembers);
+    User.find({ clanID: req.params.clanID, inWar: true }, (err, result) => {
+      res.json(result);
     });
   },
 
@@ -141,7 +141,7 @@ let clan = {
     });
   },
 
-  // Update clan members - PUT
+  // Update clan members - PUT - OUTDATED
   clanMembersUpdate: (req, res) => {
     let data = req.body;
     Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
@@ -156,7 +156,7 @@ let clan = {
     });
   },
 
-  // Update war members - PUT
+  // Update war members - PUT - OUTDATED
   warMembersUpdate: (req, res) => {
     let data = req.body;
     Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
@@ -187,7 +187,7 @@ let clan = {
     });
   },
 
-  // Update war map - PUT
+  // Update war map - PUT - OUTDATED
   warMapUpdate: (req, res) => {
     let data = req.body;
     Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
@@ -209,7 +209,7 @@ let clan = {
     });
   },
 
-  // Reset war members list - GET
+  // Reset war members list - GET - OUTDATED
   warMembersReset: (req, res) => {
     Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
       rObj.warMembers = [];
@@ -223,7 +223,7 @@ let clan = {
     });
   },
 
-  // Toggle war status - PUT
+  // Toggle war status - PUT - OUTDATED
   warStatusToggle: (req, res) => {
     Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
       rObj.inWar = ! rObj.inWar;

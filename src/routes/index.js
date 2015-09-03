@@ -20,6 +20,10 @@ router.get('/api/v1/user/:userID', user.profile);
 router.put('/api/v1/user/:userID', user.update);
 // Toggle user war status
 router.get('/api/v1/user/:userID/toggleWar', user.toggleWar);
+// Add player into war
+router.get('/api/v1/user/:userID/inWar', user.addToWar);
+// Move player out of war
+router.get('/api/v1/user/:userID/outWar', user.outOfWar);
 
 // Returns clan details (Name, id, number of members, etc).
 router.get('/api/v1/clan/:clanID', clan.clanDetails);
@@ -37,10 +41,12 @@ router.put('/api/v1/clan/:clanID/leave', user.leaveClan);
 
 // Update clan details
 router.put('/api/v1/clan/:clanID', clan.clanDetailsUpdate);
-// Update clan members (change war status, add new members).
+// Update clan members (change war status, add new members). - OUTDATED
 router.put('/api/v1/clan/:clanID/members/update', clan.clanMembersUpdate);
-// Update clan war members (add and remove participants).
+// Update clan war members (add and remove participants). - OUTDATED
 router.put('/api/v1/clan/:clanID/war/members/update', clan.warMembersUpdate);
+
+router.put('/api/v1/user/:userID/war')
 // Update clan warmap list.
 router.put('/api/v1/clan/:clanID/warmap/update', clan.warMapUpdate);
 
