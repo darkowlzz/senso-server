@@ -23,7 +23,7 @@ let userSchema = new mongoose.Schema({
   clanName: { type: String },
   email: { type: String },
   userID: {type: String },
-  inWar: { type: Boolean, 'default': false },
+  warReady: { type: Boolean, 'default': false },
   level: { type: Number, 'default': 1 },
   role: { type: String }
 });
@@ -54,7 +54,7 @@ let user = {
               clanID: '',
               clanName: '',
               email: data.email,
-              inWar: false,
+              warReady: false,
               level: 1,
               role: 'user'
             });
@@ -131,12 +131,13 @@ let user = {
           res.json({ success: false });
         } else {
           rObj.clanName = rslt.name;
+          rObj.role = 'member';
           rObj.save((err, result) => {
             if (err) {
               res.json({ error: err });
             } else {
               res.json({ success: true, clanID: rObj.clanID,
-                         clanName: rObj.clanName });
+                         clanName: rObj.clanName, role: rObj.role });
             }
           });
         }
@@ -162,16 +163,16 @@ let user = {
 
   toggleWar: (req, res) => {
     User.findOne({ userID: req.params.userID }, (err, rObj) => {
-      rObj.inWar = ! rObj.inWar;
+      rObj.warReady = ! rObj.warReady;
       rObj.save((err, result) => {
         if (err) {
           res.json({ error: err });
         } else {
-          res.json({ success: true, inWar: rObj.inWar });
+          res.json({ success: true, warReady: rObj.warReady });
         }
       });
     });
   }
 }
 
-export { user };
+export { user, User };

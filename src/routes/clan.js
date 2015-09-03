@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import _ from 'lodash';
+import { User } from './user';
 
 const CONFLICT = 'senso-update-conflict';
 
@@ -103,12 +104,18 @@ let clan = {
 
   // Returns clan war ready members list - GET
   warReadyMembers: (req, res) => {
+    /*
     Clan.findOne({ clanID: req.params.clanID }).exec((err, result) => {
       let readyMembers = _.filter(result.members, (members) => {
         return members.war === true;
       });
       res.json(readyMembers);
     });
+    */
+    User.find({ clanID: req.params.clanID, inWar: true }, (err, rObj) => {
+      console.log(rObj);
+      res.json(rObj);
+    })
   },
 
   // Returns members in war list - GET
