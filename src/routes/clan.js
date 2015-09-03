@@ -187,16 +187,47 @@ let clan = {
     });
   },
 
-  // Update war map - PUT - OUTDATED
+
+  // Toggle war status - PUT - OUTDATED
+  warStatusToggle: (req, res) => {
+    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+      console.log('toggling war status');
+      rObj.inWar = ! rObj.inWar;
+      rObj.save((err, result) => {
+        if (err) {
+          res.json({ error: err });
+        } else {
+          res.json({ success: true, inWar: rObj.inWar });
+        }
+      });
+    });
+  },
+
+  isWarOn: (req, res) => {
+    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+      res.json({ isWarOn: rObj.inWar });
+    });
+  },
+
+  getWarMap: (req, res) => {
+    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+      res.json( rObj.warMap );
+    });
+  },
+
+  // Update war map - PUT
   warMapUpdate: (req, res) => {
     let data = req.body;
     Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+      /*
       if (! arraysEqual(data.initWarMap, rObj.warMap)) {
         console.log('data not the same');
         res.json({
           success: false, reason: CONFLICT,
           newData: rObj.warMap });
       } else {
+      */
+      console.log('updating warmap');
         rObj.warMap = data.warMap;
         rObj.save((err, result) => {
           if (err) {
@@ -205,37 +236,40 @@ let clan = {
             res.json({ success: true });
           }
         });
-      }
+      //}
     });
   },
 
-  // Reset war members list - GET - OUTDATED
+  // Reset war members list - GET
   warMembersReset: (req, res) => {
-    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
-      rObj.warMembers = [];
-      rObj.save((err, result) => {
-        if (err) {
-          res.json({ error: err });
-        } else {
+    User.find({ clanID: req.params.clanID, inWar: true }, (err, results) => {
+      //rObj.warMembers = [];
+      let total = results.length;
+      console.log('total members:', total);
+
+      function saveAll () {
+        console.log('total:', total);
+        if (total === 0) {
+          console.log('returning from member reset');
           res.json({ success: true });
+        } else {
+          let result = results.pop();
+          console.log('moving out', result);
+          result.inWar = false;
+          result.save((error, saved) => {
+            total--;
+            if (error) {
+              throw error;
+            } else {
+              saveAll();
+            }
+          });
         }
-      });
+      }
+      saveAll();
     });
   },
 
-  // Toggle war status - PUT - OUTDATED
-  warStatusToggle: (req, res) => {
-    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
-      rObj.inWar = ! rObj.inWar;
-      rObj.save((err, result) => {
-        if (err) {
-          res.json({ error: err });
-        } else {
-          res.json({ success: true });
-        }
-      });
-    });
-  }
 }
 
 

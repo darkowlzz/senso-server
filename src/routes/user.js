@@ -164,14 +164,16 @@ let user = {
 
   toggleWar: (req, res) => {
     User.findOne({ userID: req.params.userID }, (err, rObj) => {
-      rObj.warReady = ! rObj.warReady;
-      rObj.save((err, result) => {
-        if (err) {
-          res.json({ error: err });
-        } else {
-          res.json({ success: true, warReady: rObj.warReady });
-        }
-      });
+      if (rObj) {
+        rObj.warReady = ! rObj.warReady;
+        rObj.save((err, result) => {
+          if (err) {
+            res.json({ error: err });
+          } else {
+            res.json({ success: true, warReady: rObj.warReady });
+          }
+        });
+      }
     });
   },
 

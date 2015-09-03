@@ -33,6 +33,10 @@ router.get('/api/v1/clan/:clanID/members', user.getUsersInClan);
 router.get('/api/v1/clan/:clanID/war/ready', clan.warReadyMembers);
 // Returns clan war participant members list.
 router.get('/api/v1/clan/:clanID/war/members', clan.warMembers);
+// Returns clan war status
+router.get('/api/v1/clan/:clanID/isWarOn', clan.isWarOn);
+// Returns clan war map
+router.get('/api/v1/clan/:clanID/warMap', clan.getWarMap);
 
 // Join clan
 router.put('/api/v1/clan/:clanID/join', user.joinClan);
