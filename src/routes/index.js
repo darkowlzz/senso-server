@@ -50,7 +50,10 @@ router.put('/api/v1/clan/:clanID/members/update', clan.clanMembersUpdate);
 // Update clan war members (add and remove participants). - OUTDATED
 router.put('/api/v1/clan/:clanID/war/members/update', clan.warMembersUpdate);
 
-router.put('/api/v1/user/:userID/war')
+// Reset war map
+router.get('/api/v1/clan/:clanID/warmap/reset', clan.resetWarMap);
+// Inititialize war map
+router.put('/api/v1/clan/:clanID/warmap/init', clan.initWarMap);
 // Update clan warmap list.
 router.put('/api/v1/clan/:clanID/warmap/update', clan.warMapUpdate);
 

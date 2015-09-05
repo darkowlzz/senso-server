@@ -191,7 +191,6 @@ let clan = {
   // Toggle war status - PUT - OUTDATED
   warStatusToggle: (req, res) => {
     Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
-      console.log('toggling war status');
       rObj.inWar = ! rObj.inWar;
       rObj.save((err, result) => {
         if (err) {
@@ -215,46 +214,61 @@ let clan = {
     });
   },
 
+  initWarMap: (req, res) => {
+    let data = req.body;
+    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+      rObj.warMap = data.warMap;
+      rObj.save((err, result) => {
+        if (err) {
+          res.json({ error: err });
+        } else {
+          res.json({ success: true });
+        }
+      });
+    });
+  },
+
+  resetWarMap: (req, res) => {
+    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+      rObj.warMap = [];
+      rObj.save((err, result) => {
+        if (err) {
+          res.json({ error: err });
+        } else {
+          res.json({ success: true });
+        }
+      })
+    });
+  },
+
   // Update war map - PUT
   warMapUpdate: (req, res) => {
     let data = req.body;
     Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
-      /*
-      if (! arraysEqual(data.initWarMap, rObj.warMap)) {
-        console.log('data not the same');
-        res.json({
-          success: false, reason: CONFLICT,
-          newData: rObj.warMap });
-      } else {
-      */
-      console.log('updating warmap');
-        rObj.warMap = data.warMap;
-        rObj.save((err, result) => {
-          if (err) {
-            res.json({ error: err });
-          } else {
-            res.json({ success: true });
-          }
-        });
-      //}
+      let newMap = _.cloneDeep(rObj.warMap);
+      console.log('new map', newMap);
+      newMap[data.target - 1].player = data.player;
+      rObj.warMap = newMap;
+      rObj.save((err, result) => {
+        if (err) {
+          res.json({ error: err });
+        } else {
+          res.json({ success: true, map: rObj.warMap });
+        }
+      });
     });
   },
 
   // Reset war members list - GET
   warMembersReset: (req, res) => {
     User.find({ clanID: req.params.clanID, inWar: true }, (err, results) => {
-      //rObj.warMembers = [];
       let total = results.length;
-      console.log('total members:', total);
-
       function saveAll () {
         console.log('total:', total);
         if (total === 0) {
-          console.log('returning from member reset');
           res.json({ success: true });
         } else {
           let result = results.pop();
-          console.log('moving out', result);
           result.inWar = false;
           result.save((error, saved) => {
             total--;
