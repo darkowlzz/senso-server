@@ -3,6 +3,9 @@ import _ from 'lodash';
 import { User } from './user';
 
 const CONFLICT = 'senso-update-conflict';
+const CLAN_COLLECTION = 'clans-alpha-2';
+const STATS_COLLECTION = 'stats-alpha-2';
+
 
 function arraysEqual (a, b) {
   if (a === b) return true;
@@ -41,7 +44,7 @@ let clanSchema = new mongoose.Schema({
   level: { type: Number, 'default': 1 },
   joinRequests: { type: Array, 'default': [] }
 });
-let Clan = mongoose.model('clan', clanSchema);
+let Clan = mongoose.model(CLAN_COLLECTION, clanSchema);
 
 
 let clan = {
@@ -293,7 +296,7 @@ let statsSchema = new mongoose.Schema({
   users: { type: Number, 'default': 0 }
 });
 
-let Stats = mongoose.model('statistics', statsSchema);
+let Stats = mongoose.model(STATS_COLLECTION, statsSchema);
 
 let stats = {
 

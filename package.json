@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "preinstall": "npm i babel -g"
   },
-  "author": "Sunny <indiasuny000@gmail.com> (darkowlzz)",
+  "author": "Sunny <me@darkowlzz.space> (darkowlzz)",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.13.3",

@@ -6,6 +6,8 @@ import expressJwt from 'express-jwt';
 import jwt from 'jsonwebtoken';
 import { router } from './routes';
 
+let port = process.env.PORT || 8000;
+
 let app = express();
 
 app.use(logger('dev'));
@@ -40,7 +42,7 @@ app.use((req, res, next) => {
 */
 
 // Start the server
-app.set('port', process.env.PORT || 3000);
+app.set('port', port || 3000);
 
 let server = app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + server.address().port);

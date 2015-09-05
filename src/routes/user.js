@@ -2,6 +2,8 @@
 import { mongoose, stats, Clan } from './clan';
 import _ from 'lodash';
 
+const USER_COLLECTION = 'users-alpha-2';
+
 /*
 let uristring = process.env.MONGODB_URI || 'mongodb://localhost/senso';
 
@@ -28,7 +30,7 @@ let userSchema = new mongoose.Schema({
   level: { type: Number, 'default': 1 },
   role: { type: String }
 });
-let User = mongoose.model('user', userSchema);
+let User = mongoose.model(USER_COLLECTION, userSchema);
 
 
 let user = {

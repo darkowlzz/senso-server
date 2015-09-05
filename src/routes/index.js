@@ -6,6 +6,9 @@ import { user } from './user';
 console.log('ROUTES IMPORTED');
 let router = express.Router();
 
+router.get('/status', function (req, res) {
+  res.json('up and running :)');
+});
 
 router.post('/login', auth.tokensignin);
 
