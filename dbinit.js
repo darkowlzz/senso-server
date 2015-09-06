@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 
+const STATS_COLLECTION = 'stats-alpha-2';
+
 let uristring = process.env.MONGODB_URI || 'mongodb://localhost/senso';
+console.log('uri', uristring);
 
 mongoose.connect(uristring, (err, res) => {
   if (err) {
@@ -15,9 +18,8 @@ let statisticsSchema = new mongoose.Schema({
   clans: { type: Number, 'default': 0 },
   users: { type: Number, 'default': 0 }
 });
-let Statistics = mongoose.model('statistics', statisticsSchema);
+let Statistics = mongoose.model(STATS_COLLECTION, statisticsSchema);
 
-/*
 let aStats = new Statistics({
   statisticName: 'general'
 });
@@ -28,8 +30,9 @@ aStats.save((err, obj) => {
     console.log('stats created');
   }
 });
-*/
 
+/*
 Statistics.update({statisticName: 'general'}, {$inc: {clans: -1}}, () => {
   console.log('done done done!');
 });
+*/

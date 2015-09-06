@@ -82,7 +82,7 @@ let user = {
         nick: result.nick,
         userID: result.userID,
         clanName: result.clanName,
-        clanID: result.clanID,
+        clanID: result.clanID.toUpperCase(),
         level: result.level
       });
     });
@@ -116,19 +116,22 @@ let user = {
   },
 
   getUsersInClan: (req, res) => {
-    User.find({ clanID: req.params.clanID }, (err, result) => {
+    User.find({ clanID: req.params.clanID.toUpperCase() }, (err, result) => {
       res.json(result);
     });
   },
 
   joinClan: (req, res) => {
     let data = req.body;
+    console.log('data:', data);
     // Get the user
     User.findOne({ userID: data.userID }, (err, rObj) => {
+      console.log('user', rObj);
       // update the clanID
-      rObj.clanID = req.params.clanID;
+      rObj.clanID = req.params.clanID.toUpperCase();
       // Get clan name and update clanName
-      Clan.findOne({ clanID: data.clanID }, (err, rslt) => {
+      Clan.findOne({ clanID: req.params.clanID.toUpperCase() }, (err, rslt) => {
+        console.log('found clan', rslt);
         if (rslt === null) {
           // clan does not exists
           res.json({ success: false });
@@ -139,7 +142,7 @@ let user = {
             if (err) {
               res.json({ error: err });
             } else {
-              res.json({ success: true, clanID: rObj.clanID,
+              res.json({ success: true, clanID: rObj.clanID.toUpperCase(),
                          clanName: rObj.clanName, role: rObj.role });
             }
           });

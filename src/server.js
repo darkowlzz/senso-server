@@ -6,7 +6,7 @@ import expressJwt from 'express-jwt';
 import jwt from 'jsonwebtoken';
 import { router } from './routes';
 
-let port = process.env.PORT || 8000;
+let port = process.env.PORT || 3000;
 
 let app = express();
 

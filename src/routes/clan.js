@@ -52,7 +52,7 @@ let clan = {
   createClan: (req, res) => {
     let data = req.body;
 
-    Clan.count({ clanID: data.clanID }, (err, count) => {
+    Clan.count({ clanID: data.clanID.toUpperCase() }, (err, count) => {
       // Error if the clan exists.
       if (count > 0) {
         res.json({ error: 'Clan already exists' });
@@ -60,7 +60,7 @@ let clan = {
         // Else, create a clan object and save.
         let aClan = new Clan({
           name: data.name,
-          clanID: data.clanID,
+          clanID: data.clanID.toUpperCase(),
           clanType: data.clanType,
           warFrequency: data.warFrequency,
           location: data.location,
@@ -87,10 +87,10 @@ let clan = {
   //       clan id,
   //       total number of members.
   clanDetails: (req, res) => {
-    Clan.findOne({ clanID: req.params.clanID }).exec((err, result) => {
+    Clan.findOne({ clanID: req.params.clanID.toUpperCase() }).exec((err, result) => {
       res.json({
         name: result.name,
-        clanID: result.clanID,
+        clanID: result.clanID.toUpperCase(),
         totalMembers: result.members.length,
         description: result.description,
         level: result.level
@@ -100,7 +100,7 @@ let clan = {
 
   // Returns clan members list - GET
   clanMembers: (req, res) => {
-    Clan.findOne({ clanID: req.params.clanID }).exec((err, result) => {
+    Clan.findOne({ clanID: req.params.clanID.toUpperCase() }).exec((err, result) => {
       res.json({ members: result.members });
     });
   },
@@ -115,7 +115,7 @@ let clan = {
       res.json(readyMembers);
     });
     */
-    User.find({ clanID: req.params.clanID, warReady: true }, (err, rObj) => {
+    User.find({ clanID: req.params.clanID.toUpperCase(), warReady: true }, (err, rObj) => {
       console.log(rObj);
       res.json(rObj);
     })
@@ -123,7 +123,7 @@ let clan = {
 
   // Returns members in war list - GET
   warMembers: (req, res) => {
-    User.find({ clanID: req.params.clanID, inWar: true }, (err, result) => {
+    User.find({ clanID: req.params.clanID.toUpperCase(), inWar: true }, (err, result) => {
       res.json(result);
     });
   },
@@ -132,7 +132,7 @@ let clan = {
   // Update description and level only (for now).
   clanDetailsUpdate: (req, res) => {
     let data = req.body;
-    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+    Clan.findOne({ clanID: req.params.clanID.toUpperCase() }, (err, rObj) => {
       _.assign(rObj, req.data);
       rObj.save((err, result) => {
         if (err) {
@@ -147,7 +147,7 @@ let clan = {
   // Update clan members - PUT - OUTDATED
   clanMembersUpdate: (req, res) => {
     let data = req.body;
-    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+    Clan.findOne({ clanID: req.params.clanID.toUpperCase() }, (err, rObj) => {
       rObj.members = data.members;
       rObj.save((err, result) => {
         if (err) {
@@ -162,7 +162,7 @@ let clan = {
   // Update war members - PUT - OUTDATED
   warMembersUpdate: (req, res) => {
     let data = req.body;
-    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+    Clan.findOne({ clanID: req.params.clanID.toUpperCase() }, (err, rObj) => {
       if (! arraysEqual(data.initWarMembers, rObj.warMembers)) {
         console.log('data not the same');
         // get war ready members
@@ -193,7 +193,7 @@ let clan = {
 
   // Toggle war status - PUT - OUTDATED
   warStatusToggle: (req, res) => {
-    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+    Clan.findOne({ clanID: req.params.clanID.toUpperCase() }, (err, rObj) => {
       rObj.inWar = ! rObj.inWar;
       rObj.save((err, result) => {
         if (err) {
@@ -206,20 +206,20 @@ let clan = {
   },
 
   isWarOn: (req, res) => {
-    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+    Clan.findOne({ clanID: req.params.clanID.toUpperCase() }, (err, rObj) => {
       res.json({ isWarOn: rObj.inWar });
     });
   },
 
   getWarMap: (req, res) => {
-    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+    Clan.findOne({ clanID: req.params.clanID.toUpperCase() }, (err, rObj) => {
       res.json( rObj.warMap );
     });
   },
 
   initWarMap: (req, res) => {
     let data = req.body;
-    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+    Clan.findOne({ clanID: req.params.clanID.toUpperCase() }, (err, rObj) => {
       rObj.warMap = data.warMap;
       rObj.save((err, result) => {
         if (err) {
@@ -232,7 +232,7 @@ let clan = {
   },
 
   resetWarMap: (req, res) => {
-    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+    Clan.findOne({ clanID: req.params.clanID.toUpperCase() }, (err, rObj) => {
       rObj.warMap = [];
       rObj.save((err, result) => {
         if (err) {
@@ -247,7 +247,7 @@ let clan = {
   // Update war map - PUT
   warMapUpdate: (req, res) => {
     let data = req.body;
-    Clan.findOne({ clanID: req.params.clanID }, (err, rObj) => {
+    Clan.findOne({ clanID: req.params.clanID.toUpperCase() }, (err, rObj) => {
       let newMap = _.cloneDeep(rObj.warMap);
       console.log('new map', newMap);
       newMap[data.target - 1].player = data.player;
@@ -264,7 +264,7 @@ let clan = {
 
   // Reset war members list - GET
   warMembersReset: (req, res) => {
-    User.find({ clanID: req.params.clanID, inWar: true }, (err, results) => {
+    User.find({ clanID: req.params.clanID.toUpperCase(), inWar: true }, (err, results) => {
       let total = results.length;
       function saveAll () {
         console.log('total:', total);
